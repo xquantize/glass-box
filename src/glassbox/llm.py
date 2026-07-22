@@ -17,7 +17,7 @@ from openai.types.chat.chat_completion_message_tool_call import (
 
 DEFAULT_BASE_URL = "http://localhost:11434/v1"
 DEFAULT_API_KEY = "ollama"
-DEFAULT_MODEL = "qwen2.5"
+DEFAULT_MODEL = "qwen2.5:7b"
 DEFAULT_TEMPERATURE = 0.0
 
 
