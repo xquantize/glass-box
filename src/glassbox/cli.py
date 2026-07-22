@@ -188,6 +188,10 @@ def main(argv: list[str] | None = None) -> int:
         return eval_main(argv[1:])
     if argv and argv[0] == "replay":
         return cmd_replay(argv[1:])
+    if argv and argv[0] == "diff":
+        from glassbox.tracing.diff import main as diff_main
+
+        return diff_main(argv[1:])
 
     args = build_parser().parse_args(argv)
     console = Console(stderr=True)
@@ -199,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
         console.print("[red]No prompt provided.[/red]")
         console.print(
             "[dim]Usage: glassbox \"prompt\" | glassbox view <trace> | "
-            "glassbox replay <trace> | glassbox eval[/dim]"
+            "glassbox replay <trace> | glassbox diff <a> <b> | glassbox eval[/dim]"
         )
         return 2
 

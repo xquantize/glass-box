@@ -33,11 +33,14 @@ File tools are sandboxed to `./workspace` (`--workspace`). SQL uses SQLite at
 ```bash
 glassbox view traces/<trace_id>.jsonl
 glassbox replay traces/<trace_id>.jsonl
+glassbox diff traces/<a>.jsonl traces/<b>.jsonl
 ```
 
 `replay` re-runs the same prompt with the model / temperature / seed recorded on
 the trace's `run` span (calls Ollama again — it does not cassette responses).
 Traces from before the `run` span was added cannot be replayed; run once more first.
+
+`diff` compares prompt, knobs, tool path, tokens, latency, and final answer.
 
 ## Evals
 
