@@ -72,6 +72,23 @@ class Agent:
     def run(self, user_message: str, *, tracer: Tracer | None = None) -> AgentResult:
         """Run the ReAct loop until a final answer or the iteration cap."""
         tracer = tracer or Tracer(self.traces_dir)
+        with tracer.span("run", "run") as run_span:
+            run_span.inputs = {
+                "user_message": user_message,
+                "model": self.model,
+                "temperature": self.temperature,
+                "seed": self.seed,
+                "max_iterations": self.max_iterations,
+            }
+            result = self._run_loop(user_message, tracer)
+            run_span.outputs = {
+                "answer": result.answer,
+                "stopped_reason": result.stopped_reason,
+                "iterations": result.iterations,
+            }
+            return result
+
+    def _run_loop(self, user_message: str, tracer: Tracer) -> AgentResult:
         messages: list[ChatCompletionMessageParam] = [
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": user_message},
@@ -124,7 +141,6 @@ class Agent:
                     "observations": observations,
                 }
         else:
-            # Loop exhausted without a tool-free reply.
             answer = _last_assistant_text(messages) or (
                 f"Stopped after {self.max_iterations} iterations without a final answer."
             )

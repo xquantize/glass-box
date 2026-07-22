@@ -15,6 +15,7 @@ from glassbox.tracing.schema import Span, Trace
 from glassbox.tracing.tracer import load_trace
 
 _TYPE_STYLE = {
+    "run": "bold white",
     "iteration": "bold cyan",
     "llm": "bold magenta",
     "tool": "bold green",
@@ -90,6 +91,11 @@ def _span_label(span: Span) -> str:
         reason = span.outputs.get("stopped_reason")
         if reason:
             label += f"  [dim]{reason}[/dim]"
+
+    elif span.span_type == "run":
+        msg = span.inputs.get("user_message")
+        if isinstance(msg, str) and msg:
+            label += f'  [dim]"{_brief(msg, limit=60)}"[/dim]'
 
     if span.error and span.span_type != "tool":
         label += f"  [red]ERROR {_brief(span.error, limit=60)}[/red]"

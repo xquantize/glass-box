@@ -11,7 +11,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-SpanType = Literal["llm", "tool", "iteration"]
+SpanType = Literal["llm", "tool", "iteration", "run"]
 
 
 class Span(BaseModel):
@@ -20,6 +20,9 @@ class Span(BaseModel):
     LLM-only fields mirror ``LLMResponse`` (model, temperature, seed,
     prompt_tokens, completion_tokens) so an llm span can replay a call when
     the caller fills them from the response.
+
+    A top-level ``run`` span stores the user message and sampling knobs so
+    ``glassbox replay`` can re-run from a trace file alone.
     """
 
     span_id: str
