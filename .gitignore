@@ -19,6 +19,12 @@ htmlcov/
 traces/*
 !traces/.gitkeep
 
+# Agent sandboxes
+workspace/*
+!workspace/.gitkeep
+data/*
+!data/.gitkeep
+
 # Editor / OS
 .DS_Store
 *.swp
