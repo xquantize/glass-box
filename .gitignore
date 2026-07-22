@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+
+# Test / type / cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Runtime traces (keep the directory)
+traces/*
+!traces/.gitkeep
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/
