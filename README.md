@@ -5,7 +5,7 @@ call, tool call, and loop iteration is recorded as a span you can inspect.
 
 ## Stack
 
-- [Ollama](https://ollama.com) (local models; e.g. `qwen2.5`)
+- [Ollama](https://ollama.com) (local models; e.g. `qwen2.5:7b`)
 - `openai` SDK → `http://localhost:11434/v1` (not the OpenAI cloud API)
 - pydantic, rich, pytest
 
@@ -18,3 +18,29 @@ pip install -e ".[dev]"
 ```
 
 Requires a running Ollama instance with your model pulled.
+
+## Run
+
+```bash
+glassbox "What is (2 + 3) * 4? Use the calculator."
+# or
+python -m glassbox "What is (2 + 3) * 4?"
+```
+
+File tools are sandboxed to `./workspace` (`--workspace`). SQL uses SQLite at
+`./data/glassbox.db` (`--db`). A JSONL trace is written under `traces/` for each run.
+
+```bash
+glassbox view traces/<trace_id>.jsonl
+```
+
+## Evals
+
+From the repo root (Ollama must be running):
+
+```bash
+glassbox eval
+# or selected cases:
+glassbox eval calc_precedence sql_pets
+python -m evals.run_evals
+```
